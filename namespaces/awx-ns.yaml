@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2019-07-26T20:13:51Z"
+  name: awx-ns
+  resourceVersion: "4056875"
+  selfLink: /api/v1/namespaces/awx-ns
+  uid: ae1abf14-218e-4358-aed0-521eef579bb3
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

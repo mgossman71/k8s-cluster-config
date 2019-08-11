@@ -1,0 +1,83 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2019-07-22T17:13:38Z"
+  generation: 1
+  labels:
+    app: nfs-client-provisioner
+    chart: nfs-client-provisioner-1.2.6
+    heritage: Tiller
+    release: amber-seagull
+  name: amber-seagull-nfs-client-provisioner
+  namespace: kube-system
+  resourceVersion: "4816180"
+  selfLink: /apis/extensions/v1beta1/namespaces/kube-system/deployments/amber-seagull-nfs-client-provisioner
+  uid: 75132173-3974-4e1d-abe9-5b99be8b394b
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+      release: amber-seagull
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nfs-client-provisioner
+        release: amber-seagull
+    spec:
+      containers:
+      - env:
+        - name: PROVISIONER_NAME
+          value: cluster.local/amber-seagull-nfs-client-provisioner
+        - name: NFS_SERVER
+          value: 10.10.0.217
+        - name: NFS_PATH
+          value: /volume1/k8s-vol
+        image: quay.io/external_storage/nfs-client-provisioner:v3.1.0-k8s1.11
+        imagePullPolicy: IfNotPresent
+        name: nfs-client-provisioner
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /persistentvolumes
+          name: nfs-client-root
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: amber-seagull-nfs-client-provisioner
+      serviceAccountName: amber-seagull-nfs-client-provisioner
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: nfs-client-root
+        nfs:
+          path: /volume1/k8s-vol
+          server: 10.10.0.217
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-07-22T17:13:38Z"
+    lastUpdateTime: "2019-07-22T17:14:20Z"
+    message: ReplicaSet "amber-seagull-nfs-client-provisioner-569f6597" has successfully
+      progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-07-31T02:33:45Z"
+    lastUpdateTime: "2019-07-31T02:33:45Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

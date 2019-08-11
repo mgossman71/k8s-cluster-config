@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"jenkins"},"name":"jenkins-deployment","namespace":"mark-ns"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"jenkins"}},"template":{"metadata":{"labels":{"app":"jenkins"}},"spec":{"containers":[{"image":"jenkins/jenkins","name":"jenkins","ports":[{"containerPort":8080}],"volumeMounts":[{"mountPath":"/var/jenkins_home","name":"nfs-volume"}]}],"volumes":[{"name":"nfs-volume","nfs":{"path":"/volume1/linux-tools/docker/jenkins","server":"10.10.0.217"}}]}}}}
+  creationTimestamp: "2019-06-29T11:25:30Z"
+  generation: 15
+  labels:
+    app: jenkins
+  name: jenkins-deployment
+  namespace: mark-ns
+  resourceVersion: "4963705"
+  selfLink: /apis/extensions/v1beta1/namespaces/mark-ns/deployments/jenkins-deployment
+  uid: a51c6343-f09e-4584-b6a7-ff8fd56cbd60
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: jenkins
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - image: jenkins/jenkins
+        imagePullPolicy: Always
+        name: jenkins
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: nfs-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: nfs-volume
+        nfs:
+          path: /volume1/linux-tools/docker/jenkins
+          server: 10.10.0.217
+status:
+  conditions:
+  - lastTransitionTime: "2019-06-29T11:25:31Z"
+    lastUpdateTime: "2019-06-29T11:42:04Z"
+    message: ReplicaSet "jenkins-deployment-7db98bc947" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-07-31T02:34:22Z"
+    lastUpdateTime: "2019-07-31T02:34:22Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 15

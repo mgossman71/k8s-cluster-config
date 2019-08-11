@@ -1,0 +1,82 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"plexpy"},"name":"plexpy-deployment","namespace":"mark-ns"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"plexpy"}},"template":{"metadata":{"labels":{"app":"plexpy"}},"spec":{"containers":[{"image":"linuxserver/plexpy","name":"plexpy","ports":[{"containerPort":8181}],"volumeMounts":[{"mountPath":"/config","name":"nfs-volume-plexpy"},{"mountPath":"/mnt/sabnzb","name":"nfs-volume-downloads"}]}],"volumes":[{"name":"nfs-volume-plexpy","nfs":{"path":"/volume1/linux-tools/docker/plexpy","server":"10.10.0.217"}},{"name":"nfs-volume-downloads","nfs":{"path":"/volume1/sabnzb","server":"10.10.0.217"}}]}}}}
+  creationTimestamp: "2019-06-30T11:17:56Z"
+  generation: 15
+  labels:
+    app: plexpy
+  name: plexpy-deployment
+  namespace: mark-ns
+  resourceVersion: "5120987"
+  selfLink: /apis/extensions/v1beta1/namespaces/mark-ns/deployments/plexpy-deployment
+  uid: 75b7b677-200c-4f8e-b284-e2118c5f9a4b
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: plexpy
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: plexpy
+    spec:
+      containers:
+      - image: linuxserver/plexpy
+        imagePullPolicy: Always
+        name: plexpy
+        ports:
+        - containerPort: 8181
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /config
+          name: nfs-volume-plexpy
+        - mountPath: /mnt/sabnzb
+          name: nfs-volume-downloads
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: nfs-volume-plexpy
+        nfs:
+          path: /volume1/linux-tools/docker/plexpy
+          server: 10.10.0.217
+      - name: nfs-volume-downloads
+        nfs:
+          path: /volume1/sabnzb
+          server: 10.10.0.217
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-06-30T11:17:56Z"
+    lastUpdateTime: "2019-06-30T11:18:34Z"
+    message: ReplicaSet "plexpy-deployment-69897876c6" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-08-01T21:39:14Z"
+    lastUpdateTime: "2019-08-01T21:39:14Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 15
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

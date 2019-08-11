@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2019-06-29T11:22:00Z"
+  name: mark-ns
+  resourceVersion: "1144"
+  selfLink: /api/v1/namespaces/mark-ns
+  uid: deabfa2f-4d07-40e8-be28-91caa37fdd12
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

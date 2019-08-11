@@ -1,0 +1,96 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "6"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"pms-docker"},"name":"pms-docker-deployment","namespace":"mark-ns"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"pms-docker"}},"template":{"metadata":{"labels":{"app":"pms-docker"}},"spec":{"containers":[{"image":"plexinc/pms-docker","name":"pms-docker","ports":[{"containerPort":32400}],"volumeMounts":[{"mountPath":"/config","name":"nfs-volume-plex1"},{"mountPath":"/mnt/movies","name":"nfs-volume-movies"},{"mountPath":"/mnt/tv1","name":"nfs-volume-tv1"},{"mountPath":"/mnt/tv2","name":"nfs-volume-tv2"},{"mountPath":"/sabnzb","name":"nfs-volume-sabnzb"}]}],"volumes":[{"name":"nfs-volume-plex1","nfs":{"path":"/volume1/linux-tools/docker/plex","server":"10.10.0.217"}},{"name":"nfs-volume-movies","nfs":{"path":"/volume1/Movies","server":"10.10.0.217"}},{"name":"nfs-volume-tv1","nfs":{"path":"/volume1/TV-Shows","server":"10.10.0.217"}},{"name":"nfs-volume-tv2","nfs":{"path":"/volume1/TV-Shows1","server":"10.10.0.217"}},{"name":"nfs-volume-sabnzb","nfs":{"path":"/volume1/sabnzb","server":"10.10.0.217"}}]}}}}
+  creationTimestamp: "2019-06-30T01:50:02Z"
+  generation: 50
+  labels:
+    app: pms-docker
+  name: pms-docker-deployment
+  namespace: mark-ns
+  resourceVersion: "6780072"
+  selfLink: /apis/extensions/v1beta1/namespaces/mark-ns/deployments/pms-docker-deployment
+  uid: a8621a71-d0cc-4d7a-9c77-58777d616616
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: pms-docker
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: pms-docker
+    spec:
+      containers:
+      - image: plexinc/pms-docker:latest
+        imagePullPolicy: Always
+        name: pms-docker
+        ports:
+        - containerPort: 32400
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /config
+          name: nfs-volume-plex1
+        - mountPath: /mnt/movies
+          name: nfs-volume-movies
+        - mountPath: /mnt/tv1
+          name: nfs-volume-tv1
+        - mountPath: /mnt/tv2
+          name: nfs-volume-tv2
+        - mountPath: /sabnzb
+          name: nfs-volume-sabnzb
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: nfs-volume-plex1
+        nfs:
+          path: /volume1/linux-tools/docker/plex
+          server: 10.10.0.217
+      - name: nfs-volume-movies
+        nfs:
+          path: /volume1/Movies
+          server: 10.10.0.217
+      - name: nfs-volume-tv1
+        nfs:
+          path: /volume1/TV-Shows
+          server: 10.10.0.217
+      - name: nfs-volume-tv2
+        nfs:
+          path: /volume1/TV-Shows1
+          server: 10.10.0.217
+      - name: nfs-volume-sabnzb
+        nfs:
+          path: /volume1/sabnzb
+          server: 10.10.0.217
+status:
+  conditions:
+  - lastTransitionTime: "2019-06-30T01:50:02Z"
+    lastUpdateTime: "2019-07-19T10:54:03Z"
+    message: ReplicaSet "pms-docker-deployment-85b874c9b6" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-08-08T23:10:25Z"
+    lastUpdateTime: "2019-08-08T23:10:25Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 50

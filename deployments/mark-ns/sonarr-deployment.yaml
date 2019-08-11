@@ -1,0 +1,94 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "10"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"sonarr"},"name":"sonarr-deployment","namespace":"mark-ns"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"sonarr"}},"template":{"metadata":{"labels":{"app":"sonarr"}},"spec":{"containers":[{"image":"linuxserver/sonarr","name":"sonarr","ports":[{"containerPort":8989}],"volumeMounts":[{"mountPath":"/config","name":"nfs-volume-sonarr"},{"mountPath":"/mnt/sabnzb","name":"nfs-volume-downloads"},{"mountPath":"/tv-shows","name":"nfs-volume-tv-shows"},{"mountPath":"/tv-shows1","name":"nfs-volume-tv-shows1"}]}],"volumes":[{"name":"nfs-volume-sonarr","nfs":{"path":"/volume1/linux-tools/docker/sonarr","server":"10.10.0.217"}},{"name":"nfs-volume-downloads","nfs":{"path":"/volume1/sabnzb","server":"10.10.0.217"}},{"name":"nfs-volume-tv-shows","nfs":{"path":"/volume1/TV-Shows","server":"10.10.0.217"}},{"name":"nfs-volume-tv-shows1","nfs":{"path":"/volume1/TV-Shows1","server":"10.10.0.217"}}]}}}}
+  creationTimestamp: "2019-06-30T10:46:38Z"
+  generation: 36
+  labels:
+    app: sonarr
+  name: sonarr-deployment
+  namespace: mark-ns
+  resourceVersion: "5490113"
+  selfLink: /apis/extensions/v1beta1/namespaces/mark-ns/deployments/sonarr-deployment
+  uid: 0ddaba02-72e0-4406-bc4f-cad9c7793e9f
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sonarr
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - image: linuxserver/sonarr:3.0.2.551-ls106
+        imagePullPolicy: Always
+        name: sonarr
+        ports:
+        - containerPort: 8989
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /config
+          name: nfs-volume-sonarr
+        - mountPath: /mnt/sabnzb
+          name: nfs-volume-downloads
+        - mountPath: /tv-shows
+          name: nfs-volume-tv-shows
+        - mountPath: /tv-shows1
+          name: nfs-volume-tv-shows1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: nfs-volume-sonarr
+        nfs:
+          path: /volume1/linux-tools/docker/sonarr
+          server: 10.10.0.217
+      - name: nfs-volume-downloads
+        nfs:
+          path: /volume1/sabnzb
+          server: 10.10.0.217
+      - name: nfs-volume-tv-shows
+        nfs:
+          path: /volume1/TV-Shows
+          server: 10.10.0.217
+      - name: nfs-volume-tv-shows1
+        nfs:
+          path: /volume1/TV-Shows1
+          server: 10.10.0.217
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-07-31T02:29:18Z"
+    lastUpdateTime: "2019-07-31T02:29:18Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-06-30T10:46:38Z"
+    lastUpdateTime: "2019-08-03T23:43:10Z"
+    message: ReplicaSet "sonarr-deployment-5447bb5d4f" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 36
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

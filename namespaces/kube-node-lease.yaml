@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2019-06-29T11:17:23Z"
+  name: kube-node-lease
+  resourceVersion: "6"
+  selfLink: /api/v1/namespaces/kube-node-lease
+  uid: 976688d5-c603-4bd2-a277-bf9e10021645
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

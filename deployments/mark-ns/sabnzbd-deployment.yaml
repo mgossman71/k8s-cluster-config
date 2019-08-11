@@ -1,0 +1,82 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "5"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"sabnzbd"},"name":"sabnzbd-deployment","namespace":"mark-ns"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"sabnzbd"}},"template":{"metadata":{"labels":{"app":"sabnzbd"}},"spec":{"containers":[{"image":"linuxserver/sabnzbd","name":"pms-docker","ports":[{"containerPort":8080}],"volumeMounts":[{"mountPath":"/config","name":"nfs-volume-sabnzb"},{"mountPath":"/mnt/sabnzb","name":"nfs-volume-downloads"}]}],"volumes":[{"name":"nfs-volume-sabnzb","nfs":{"path":"/volume1/linux-tools/docker/sabnzb","server":"10.10.0.217"}},{"name":"nfs-volume-downloads","nfs":{"path":"/volume1/sabnzb","server":"10.10.0.217"}}]}}}}
+  creationTimestamp: "2019-06-30T00:53:22Z"
+  generation: 41
+  labels:
+    app: sabnzbd
+  name: sabnzbd-deployment
+  namespace: mark-ns
+  resourceVersion: "4962743"
+  selfLink: /apis/extensions/v1beta1/namespaces/mark-ns/deployments/sabnzbd-deployment
+  uid: 82cce9ad-4124-4048-b890-1e3df835d475
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sabnzbd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sabnzbd
+    spec:
+      containers:
+      - image: linuxserver/sabnzbd:latest
+        imagePullPolicy: Always
+        name: pms-docker
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /config
+          name: nfs-volume-sabnzb
+        - mountPath: /mnt/sabnzb
+          name: nfs-volume-downloads
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: nfs-volume-sabnzb
+        nfs:
+          path: /volume1/linux-tools/docker/sabnzb
+          server: 10.10.0.217
+      - name: nfs-volume-downloads
+        nfs:
+          path: /volume1/sabnzb
+          server: 10.10.0.217
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-06-30T00:53:22Z"
+    lastUpdateTime: "2019-07-31T01:44:23Z"
+    message: ReplicaSet "sabnzbd-deployment-68dc489cd8" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-07-31T23:17:51Z"
+    lastUpdateTime: "2019-07-31T23:17:51Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 41
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
